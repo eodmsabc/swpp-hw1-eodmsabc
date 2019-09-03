@@ -11,6 +11,7 @@
 
 import sys
 import re
+import os
 
 """Baby Names exercise
 
@@ -50,6 +51,11 @@ def check_filename_existence(func):
         BabynameFileNotFoundException: if there is no such file named as the first argument of the function to decorate.
     """
     # TODO: Implement this decorator.
+    def wrap(self, filename):
+        if (os.path.exists(filename)):
+            return func(self, filename)
+        raise BabynameFileNotFoundException
+    return wrap
 
 
 class BabynameParser:
@@ -64,9 +70,10 @@ class BabynameParser:
         Args:
             filename: The filename to parse.
         """
-
         text = "File is not read yet"  # TODO: Open and read the given file.
         # Could process the file line-by-line, but regex on the whole text at once is even easier.
+        f = open(filename, 'r')
+        text = f.read()
 
         # The year extracting code is provided. Implement the tuple extracting code by using this.
         year_match = re.search(r'Popularity\sin\s(\d{4})', text)
@@ -78,7 +85,9 @@ class BabynameParser:
 
         # Extract all the data tuples with a findall()
         # each tuple is: (rank, male-name, female-name)
-        self.rank_to_names_tuples = []  # TODO: Extract the list of rank to names tuples.
+
+        # TODO: Extract the list of rank to names tuples.
+        self.rank_to_names_tuples = re.findall(r'<td>(\d+)</td><td>([A-Za-z]+)</td><td>([A-Za-z]+)</td>', text)
 
     def parse(self, parsing_lambda):
         """
