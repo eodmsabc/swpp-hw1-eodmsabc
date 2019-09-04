@@ -11,7 +11,6 @@
 
 import sys
 import re
-import os
 
 """Baby Names exercise
 
@@ -38,6 +37,10 @@ class BabynameFileNotFoundException(Exception):
     """
     A custom exception for the cases that the babyname file does not exist.
     """
+    def __init__(self, filename):
+        self.value = filename
+    def __str__(self):
+        return "No such babyname file or directory: {filename}".format(filename = self.value)
     pass
 
 
@@ -52,9 +55,11 @@ def check_filename_existence(func):
     """
     # TODO: Implement this decorator.
     def wrap(self, filename):
-        if (os.path.exists(filename)):
-            return func(self, filename)
-        raise BabynameFileNotFoundException
+        try:
+            with open(filename, 'r') as f:
+                return func(self, filename)
+        except Exception:
+            raise BabynameFileNotFoundException(filename)
     return wrap
 
 
@@ -101,3 +106,4 @@ class BabynameParser:
             The list of parsed babynames.
         """
         # TODO: Implement this method.
+        return list(map(parsing_lambda, self.rank_to_names_tuples))
