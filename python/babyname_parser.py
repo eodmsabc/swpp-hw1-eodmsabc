@@ -11,6 +11,7 @@
 
 import sys
 import re
+import os
 
 """Baby Names exercise
 
@@ -37,10 +38,10 @@ class BabynameFileNotFoundException(Exception):
     """
     A custom exception for the cases that the babyname file does not exist.
     """
-    def __init__(self, filename):
-        self.value = filename
+    def __init__(self, msg):
+        self.value = msg
     def __str__(self):
-        return "No such babyname file or directory: {filename}".format(filename = self.value)
+        return self.value
     pass
 
 
@@ -55,11 +56,10 @@ def check_filename_existence(func):
     """
     # TODO: Implement this decorator.
     def wrap(self, filename):
-        try:
-            with open(filename, 'r') as f:
-                return func(self, filename)
-        except Exception:
-            raise BabynameFileNotFoundException(filename)
+        if os.path.exists(filename):
+            return func(self, filename)
+        else:
+            raise BabynameFileNotFoundException("No such babyname file or directory: {0}".format(filename))
     return wrap
 
 
