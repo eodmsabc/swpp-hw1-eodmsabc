@@ -92,7 +92,7 @@ class Form {
 
     if (!this.check_email()) {
       email_elem.innerHTML = "X";
-      email_elem.title = "characters(except for whitespace and '@') @ characters(except for whitespace, '@' and '.') . 2-3 alphabets";
+      email_elem.title = "characters other than @ or whitespace followed by an @ sign, followed by more characters (not '@', '.', or whitespace: co.kr is not allowed in this case), and then a \".\". After the \".\", you can only write 2 to 3 letters from a to z.";
       errormsg = errormsg.concat("\nEmail");
     }
     else {
