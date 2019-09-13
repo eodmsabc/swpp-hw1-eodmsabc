@@ -49,30 +49,20 @@ class Form {
     return reg_name.test(n);
   }
   check_age() {
-    const reg_age = /^\d+$/;
-    return (reg_age.test(this.age) && 0 <= this.age && this.age <= 200);
+    return 0 <= this.age && this.age <= 200;
   }
   check_birth_month() {
     const months = ["January", "February", "March",
                     "April", "March", "June",
                     "July", "August", "September",
                     "October", "November", "December"];
-    var valid = false;
-    for (const m of months) {
-      if (this.birth_month === m) {
-        valid = true;
-        break;
-      }
-    }
-    return valid;
+    return months.includes(this.birth_month);
   }
   check_birth_day() {
-    const reg_day = /^\d{1,2}$/;
-    return reg_day.test(this.birth_day);
+    return 0 <= this.birth_day && this.birth_day < 100;
   }
   check_birth_year() {
-    const reg_year = /^\d{4}$/;
-    return (reg_year.test(this.birth_year) && 1800 <= this.birth_year && this.birth_year <= 2018);
+    return 1800 <= this.birth_year && this.birth_year <= 2018;
   }
   
   validCheck() {
